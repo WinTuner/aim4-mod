@@ -1,0 +1,80 @@
+-J-Duser.language=
+-J-Duser.country=
+-Xdoclint:none
+@options
+@packages
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/natto/Downloads/aim4-release-1.0.3/aim4-root/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'AIM4 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/6/docs/api' '/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'AIM4 1.0-SNAPSHOT API'
+aim4.config
+aim4.driver
+aim4.driver.coordinator
+aim4.driver.navigator
+aim4.driver.pilot
+aim4.gui
+aim4.gui.component
+aim4.gui.frame
+aim4.gui.parampanel
+aim4.gui.statuspanel
+aim4.im
+aim4.im.v2i.batch
+aim4.im.v2i
+aim4.im.v2i.policy
+aim4.im.v2i.RequestHandler
+aim4.im.v2i.reservation
+aim4
+aim4.map
+aim4.map.destination
+aim4.map.lane
+aim4.map.track
+aim4.msg.i2v
+aim4.msg.udp
+aim4.msg.v2i
+aim4.noise
+aim4.sim
+aim4.sim.setup
+aim4.util
+aim4.vehicle
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/src/main/java = 1368582720000
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/element-list = 1765352147309
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/constant-values.html = 1765352147421
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/serialized-form.html = 1765352147449
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/overview-tree.html = 1765352147767
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/index.html = 1765352147769
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/allclasses-index.html = 1765352147840
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/allpackages-index.html = 1765352147842
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/module-search-index.js = 1765352147843
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/package-search-index.js = 1765352147843
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/type-search-index.js = 1765352147843
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/member-search-index.js = 1765352147846
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/tag-search-index.js = 1765352147847
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/index-all.html = 1765352147928
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/search.html = 1765352147931
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/overview-summary.html = 1765352147932
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/help-doc.html = 1765352147937
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/stylesheet.css = 1765352147938
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/script.js = 1765352147939
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/copy.svg = 1765352147939
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/link.svg = 1765352147939
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/search.js = 1765352147941
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/search-page.js = 1765352147942
+/home/natto/Downloads/aim4-release-1.0.3/aim4-root/target/reports/apidocs/javadoc.sh = 1765352099075
