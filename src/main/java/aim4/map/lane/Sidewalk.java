@@ -56,7 +56,7 @@ public class Sidewalk {
 
   /** Get the width of the sidewalk in meters. */
   public double getWidth() {
-    return width;
+    return width*2;
   }
 
   /**
