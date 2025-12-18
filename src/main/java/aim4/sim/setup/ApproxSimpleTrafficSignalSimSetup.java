@@ -32,6 +32,10 @@ package aim4.sim.setup;
 
 import aim4.config.Debug;
 import aim4.config.SimConfig;
+<<<<<<< HEAD
+=======
+import aim4.config.ShibuyaCrossingController;
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 import aim4.driver.pilot.V2IPilot;
 import aim4.im.v2i.reservation.ReservationGridManager;
 import aim4.map.GridMap;
@@ -141,11 +145,23 @@ public class ApproxSimpleTrafficSignalSimSetup extends BasicSimSetup
 
     Debug.SHOW_VEHICLE_COLOR_BY_MSG_STATE = false;
 
+<<<<<<< HEAD
     GridMapUtil.setApproxSimpleTrafficLightManagers(layout,
                                                      currentTime,
                                                      gridConfig,
                                                      greenLightDuration,
                                                      yellowLightDuration);
+=======
+    // Create Shibuya crossing controller for pedestrian-aware traffic coordination
+    ShibuyaCrossingController crossingController = 
+      new ShibuyaCrossingController(layout, currentTime);
+
+    // Use Shibuya-style managers that coordinate traffic signals with pedestrian crossings
+    GridMapUtil.setShibuyaStyleTrafficManagers(layout,
+                                                currentTime,
+                                                gridConfig,
+                                                crossingController);
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 
     if (numOfColumns == 1 && numOfRows == 1) {
       GridMapUtil.setUniformTurnBasedSpawnPoints(layout, trafficLevel);
@@ -156,7 +172,12 @@ public class ApproxSimpleTrafficSignalSimSetup extends BasicSimSetup
     V2IPilot.DEFAULT_STOP_DISTANCE_BEFORE_INTERSECTION =
       stopDistBeforeIntersection;
 
+<<<<<<< HEAD
     AutoDriverOnlySimulator sim = new AutoDriverOnlySimulator(layout);
+=======
+    // Create simulator with the same crossing controller used by traffic managers
+    AutoDriverOnlySimulator sim = new AutoDriverOnlySimulator(layout, crossingController);
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
     return sim;
   }
 }

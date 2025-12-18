@@ -48,7 +48,10 @@ public class AutoDriverOnlyParamPanel extends JPanel {
   LabeledSlider numOfColumnSlider;
   LabeledSlider numOfRowSlider;
   LabeledSlider lanesPerRoadSlider;
+<<<<<<< HEAD
   LabeledSlider pedestrianDensitySlider;
+=======
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 
   /**
    * Create the autonomous driver only simulation parameter panel.
@@ -108,6 +111,7 @@ public class AutoDriverOnlyParamPanel extends JPanel {
                         "%.0f");
     add(lanesPerRoadSlider);
 
+<<<<<<< HEAD
     pedestrianDensitySlider =
       new LabeledSlider(0.0, 25.0,
                         5.0,
@@ -116,6 +120,8 @@ public class AutoDriverOnlyParamPanel extends JPanel {
                         "%.0f");
     add(pedestrianDensitySlider);
 
+=======
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 
   }
 
@@ -173,6 +179,7 @@ public class AutoDriverOnlyParamPanel extends JPanel {
   public int getLanesPerRoad() {
     return (int)lanesPerRoadSlider.getValue();
   }
+<<<<<<< HEAD
 
   /**
    * Get the pedestrian density.
@@ -182,4 +189,6 @@ public class AutoDriverOnlyParamPanel extends JPanel {
   public double getPedestrianDensity() {
     return pedestrianDensitySlider.getValue();
   }
+=======
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 }

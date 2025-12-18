@@ -56,6 +56,10 @@ public class SimControlPanel extends JPanel
   LabeledSlider targetSimSpeedSlider;
   LabeledSlider targetFrameRateSlider;
   LabeledSlider trafficLevelSlider;
+<<<<<<< HEAD
+=======
+  LabeledSlider pedestrianSlider;
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 
   /** The viewer object */
   Viewer viewer;
@@ -100,6 +104,16 @@ public class SimControlPanel extends JPanel
                         500.0, 100.0,
                         "Traffic Level: %.0f vehicles/hour/lane",
                         "%.0f", this);
+<<<<<<< HEAD
+=======
+    // Pedestrian density slider: people per sidewalk (0..10)
+    pedestrianSlider =
+      new LabeledSlider(0.0, 25.0,
+                        viewer.getInitPedestrianDensity(),
+                        5.0, 1.0,
+                        "Pedestrians per sidewalk: %.0f",
+                        "%.0f", this);
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
     // layout
     GroupLayout layout = new GroupLayout(this);
     setLayout(layout);
@@ -110,12 +124,22 @@ public class SimControlPanel extends JPanel
       .createParallelGroup(GroupLayout.Alignment.LEADING)
       .addComponent(targetSimSpeedSlider)
       .addComponent(targetFrameRateSlider)
+<<<<<<< HEAD
       .addComponent(trafficLevelSlider));
+=======
+      .addComponent(trafficLevelSlider)
+      .addComponent(pedestrianSlider));
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 
     layout.setVerticalGroup(layout.createSequentialGroup()
       .addComponent(targetSimSpeedSlider)
       .addComponent(targetFrameRateSlider)
+<<<<<<< HEAD
       .addComponent(trafficLevelSlider));
+=======
+      .addComponent(trafficLevelSlider)
+      .addComponent(pedestrianSlider));
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
   }
 
   // ///////////////////////////////
@@ -160,6 +184,11 @@ public class SimControlPanel extends JPanel
       // slider value is vehicles/hour/lane -> convert to vehicles/sec/lane
       double vph = trafficLevelSlider.getValue();
       viewer.setTrafficLevel(vph / 3600.0);
+<<<<<<< HEAD
+=======
+    } else if (evt.getSource() == pedestrianSlider) {
+      viewer.setPedestrianDensity((int) pedestrianSlider.getValue());
+>>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
     }
   }
 }
