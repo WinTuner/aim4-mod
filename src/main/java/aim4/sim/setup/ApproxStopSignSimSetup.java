@@ -32,10 +32,6 @@ package aim4.sim.setup;
 
 import aim4.config.Debug;
 import aim4.config.SimConfig;
-<<<<<<< HEAD
-=======
-import aim4.config.ShibuyaCrossingController;
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 import aim4.driver.pilot.V2IPilot;
 import aim4.im.v2i.reservation.ReservationGridManager;
 import aim4.map.GridMap;
@@ -47,8 +43,7 @@ import aim4.sim.Simulator;
  * The setup for the simulator in which the intersections are controlled
  * by stop signs.
  */
-public class ApproxStopSignSimSetup extends BasicSimSetup
-                                         implements SimSetup {
+public class ApproxStopSignSimSetup extends BasicSimSetup {
 
   /** The name of the file containing the traffic volume data */
   private String trafficVolumeFileName = null;
@@ -134,21 +129,9 @@ public class ApproxStopSignSimSetup extends BasicSimSetup
     SimConfig.MUST_STOP_BEFORE_INTERSECTION = true;
     Debug.SHOW_VEHICLE_COLOR_BY_MSG_STATE = false;
 
-<<<<<<< HEAD
     GridMapUtil.setApproxStopSignManagers(layout,
                                           currentTime,
                                           gridConfig);
-=======
-    // Create Shibuya crossing controller for pedestrian-aware traffic coordination
-    ShibuyaCrossingController crossingController = 
-      new ShibuyaCrossingController(layout, currentTime);
-
-    // Use Shibuya-style managers that coordinate traffic signals with pedestrian crossings
-    GridMapUtil.setShibuyaStyleTrafficManagers(layout,
-                                                currentTime,
-                                                gridConfig,
-                                                crossingController);
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 
     if (trafficVolumeFileName == null) {
       if (numOfColumns == 1 && numOfRows == 1) {
@@ -163,12 +146,7 @@ public class ApproxStopSignSimSetup extends BasicSimSetup
     V2IPilot.DEFAULT_STOP_DISTANCE_BEFORE_INTERSECTION =
       stopDistBeforeIntersection;
 
-<<<<<<< HEAD
     AutoDriverOnlySimulator sim = new AutoDriverOnlySimulator(layout);
-=======
-    // Create simulator with the same crossing controller used by traffic managers
-    AutoDriverOnlySimulator sim = new AutoDriverOnlySimulator(layout, crossingController);
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
     return sim;
   }
 }

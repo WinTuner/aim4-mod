@@ -64,6 +64,7 @@ public class AdminControlPanel extends JPanel
   private JButton fcfsButton;
   private JButton stopButton;
   private JButton straightButton;
+  @SuppressWarnings("unused")
   private JButton mixedLightButton;
 
   /** The viewer object */

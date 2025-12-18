@@ -31,7 +31,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package aim4.msg.v2i;
 
 import aim4.config.Constants;
-import aim4.msg.v2i.V2IMessage.Type;
 
 /**
  * Message sent from a Vehicle to an Intersection Manager to inform it that it

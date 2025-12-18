@@ -54,6 +54,7 @@ public class RatioDestinationSelector implements DestinationSelector {
   /**
    * The set of roads that a vehicle can use as an ultimate destination.
    */
+  @SuppressWarnings("unused")
   private List<Road> destinationRoads;
   /**
    * The traffic volume object.

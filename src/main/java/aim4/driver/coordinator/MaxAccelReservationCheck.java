@@ -206,6 +206,7 @@ public class MaxAccelReservationCheck {
     /**
      * Print the specification of this trapezoid.
      */
+    @SuppressWarnings("unused")
     public void print() {
       System.err.printf("TrapezoidSpec:\n");
       System.err.printf("  w1 = %.10f\n", w1);
@@ -948,6 +949,7 @@ public class MaxAccelReservationCheck {
    *
    * @return true if the trapezoid is valid.
    */
+  @SuppressWarnings("unused")
   private static boolean isPartialTrapezoidValid(double time1, double v1,
                                                  double timeEnd, double vEnd,
                                                  double dTotal,

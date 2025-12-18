@@ -61,7 +61,7 @@ public class SimSetupPanel extends JPanel implements ItemListener {
   final static String STOP_SIGN_SETUP_PANEL = "Stop Signs";
 
   /** The combox box */
-  private JComboBox comboBox;
+  private JComboBox<?> comboBox;
   /** The card panel */
   private JPanel cards; //a panel that uses CardLayout
   /** The card layout */
@@ -89,7 +89,7 @@ public class SimSetupPanel extends JPanel implements ItemListener {
       { AUTO_DRIVER_ONLY_SETUP_PANEL,
         TRAFFIC_SIGNAL_SETUP_PANEL,
         STOP_SIGN_SETUP_PANEL };
-    comboBox = new JComboBox(comboBoxItems);
+    comboBox = new JComboBox<>(comboBoxItems);
     comboBox.setEditable(false);
     comboBox.addItemListener(this);
     comboBoxPane.add(comboBox);

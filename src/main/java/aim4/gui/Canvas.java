@@ -255,12 +255,11 @@ public class Canvas extends JPanel implements ComponentListener,
   private static final Stroke TRACK_STROKE = new BasicStroke(0.3f);
   /** Sidewalk drawing: default width in meters and color */
   private static final double SIDEWALK_WIDTH = 1.5; // meters
+  @SuppressWarnings("unused")
   private static final Color SIDEWALK_COLOR = Color.GRAY;
   /** Sidewalk centerline (visualization) */
   private static final Color SIDEWALK_CENTERLINE_COLOR = Color.RED;
   private static final Stroke SIDEWALK_CENTERLINE_STROKE = new BasicStroke(0.15f);
-<<<<<<< HEAD
-=======
   /** Pedestrian visualization */
   private static final double PEDESTRIAN_RADIUS = 1; // meters
   private static final Color PEDESTRIAN_COLOR = Color.WHITE;
@@ -280,7 +279,6 @@ public class Canvas extends JPanel implements ComponentListener,
   private double cycleLengthSec = 0.0;
   private double pedsPhaseStartSec = -1.0;
   private double pedsPhaseDurationSec = 0.0;
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
   /////////////////////////////////
   // PRIVATE FIELDS
   /////////////////////////////////
@@ -435,11 +433,6 @@ public class Canvas extends JPanel implements ComponentListener,
     mapImageTable[scaleIndex] =
         createMapImage(basicMap, scaleTable[scaleIndex]);
 
-<<<<<<< HEAD
-    canUpdateCanvas = true;
-  }
-
-=======
     // create simple pedestrians that walk along sidewalk centerlines
     createPedestriansFromMap();
 
@@ -484,8 +477,6 @@ public class Canvas extends JPanel implements ComponentListener,
   public int getPedestrianDensity() {
     return this.pedestrianDensity;
   }
-
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
   /**
    * Create the display buffer
    */
@@ -711,8 +702,6 @@ public class Canvas extends JPanel implements ComponentListener,
           // use sidewalk color; draw after lane fill so it is visible
           bgBuffer.setPaint(sw.getColor());
           bgBuffer.fill(swShape);
-<<<<<<< HEAD
-=======
           // draw sidewalk centerline (red)
           Shape center = sw.getCenterLine();
           if (center != null) {
@@ -720,7 +709,6 @@ public class Canvas extends JPanel implements ComponentListener,
             bgBuffer.setStroke(SIDEWALK_CENTERLINE_STROKE);
             bgBuffer.draw(center);
           }
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
         }
       } catch (Throwable t) {
         // sidewalk drawing is best-effort; ignore failures
@@ -849,8 +837,6 @@ public class Canvas extends JPanel implements ComponentListener,
     g2.setComposite(oldComposite);
   }
 
-<<<<<<< HEAD
-=======
   // Parse the signal phases CSV to find the PEDS window within the cycle
   private void ensurePedSignalTiming() {
     if (pedPhaseParsed) return;
@@ -906,7 +892,6 @@ public class Canvas extends JPanel implements ComponentListener,
     return Math.max(0.0, end - m);
   }
 
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
   /**
    * Draw the data collection lines.
    *
@@ -920,9 +905,7 @@ public class Canvas extends JPanel implements ComponentListener,
       bgBuffer.setStroke(DCL_STROKE);
       bgBuffer.draw(line.getShape());
     }
-  }
-
-  /////////////////////////////////
+  }  /////////////////////////////////
   // PUBLIC METHODS
   /////////////////////////////////
   /**
@@ -979,8 +962,6 @@ public class Canvas extends JPanel implements ComponentListener,
         drawTrafficLights(displayBuffer, im);
       }
 
-<<<<<<< HEAD
-=======
       // update and draw pedestrians
       double simTime = sim.getSimulationTime();
       double dt = 0.0;
@@ -1043,7 +1024,6 @@ public class Canvas extends JPanel implements ComponentListener,
         Shape s = p.getShape();
         if (s != null) displayBuffer.fill(s);
       }
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
       // draw simulation time.
       if (isShowSimulationTime) {
         drawSimulationTime(displayBuffer, sim.getSimulationTime());
@@ -1364,6 +1344,7 @@ public class Canvas extends JPanel implements ComponentListener,
    *
    * @param buffer  the display buffer
    */
+  @SuppressWarnings("unused")
   private void drawTracks(Graphics2D buffer) {
     PathTrack track = new PathTrack();
 
@@ -1713,8 +1694,6 @@ public class Canvas extends JPanel implements ComponentListener,
     poly.closePath();
     return poly;
   }
-<<<<<<< HEAD
-=======
 
   // Simple pedestrian that walks linearly along a Line2D (wraps at end)
   private static class Pedestrian {
@@ -1752,5 +1731,4 @@ public class Canvas extends JPanel implements ComponentListener,
       return reachedEnd;
     }
   }
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
 }

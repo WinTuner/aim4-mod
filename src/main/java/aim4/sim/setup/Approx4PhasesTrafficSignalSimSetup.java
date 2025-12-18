@@ -43,8 +43,7 @@ import aim4.sim.Simulator;
  * The setup for the simulator in which the intersections are controlled
  * by 4-phases traffic signals.
  */
-public class Approx4PhasesTrafficSignalSimSetup extends BasicSimSetup
-                                                implements SimSetup {
+public class Approx4PhasesTrafficSignalSimSetup extends BasicSimSetup {
 
   /** The duration of the green signal */
   private double greenLightDuration = 30.0;

@@ -383,11 +383,8 @@ public class Viewer extends JFrame implements ActionListener, KeyListener,
 
   /** The initial configuration of the simulation */
   private BasicSimSetup initSimSetup;
-<<<<<<< HEAD
-=======
   /** The initial pedestrian density (people per sidewalk) */
   private int initPedestrianDensity = 1;
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
   /** The Simulator running in this Viewer. */
   private Simulator sim;
   /** The simulation's thread */
@@ -1490,14 +1487,6 @@ public class Viewer extends JFrame implements ActionListener, KeyListener,
     return initSimSetup.getTrafficLevel();
   }
 
-<<<<<<< HEAD
-  /**
-   * Allow changing traffic (spawn) level at runtime. The provided trafficLevel
-   * is in vehicles-per-second-per-lane. This updates the initial setup so
-   * future resets pick it up, and if a simulation is running it replaces each
-   * spawn point's generator with a new uniform generator using the given rate.
-   */
-=======
   /** Expose the initial pedestrian density (people per sidewalk) */
   public int getInitPedestrianDensity() {
     return initPedestrianDensity;
@@ -1521,11 +1510,12 @@ public class Viewer extends JFrame implements ActionListener, KeyListener,
     canvas.requestFocusInWindow();
   }
 
-  // Allow changing traffic (spawn) level at runtime. The provided trafficLevel
-  // is in vehicles-per-second-per-lane. This updates the initial setup so
-  // future resets pick it up, and if a simulation is running it replaces each
-  // spawn point's generator with a new uniform generator using the given rate.
->>>>>>> 6b877b06cedd915cea56e1cdf09d9b905ae2d57c
+  /**
+   * Allow changing traffic (spawn) level at runtime. The provided trafficLevel
+   * is in vehicles-per-second-per-lane. This updates the initial setup so
+   * future resets pick it up, and if a simulation is running it replaces each
+   * spawn point's generator with a new uniform generator using the given rate.
+   */
   public void setTrafficLevel(double trafficLevel) {
     // update init setup so next simulation uses it
     initSimSetup.setTrafficLevel(trafficLevel);

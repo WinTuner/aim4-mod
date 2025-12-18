@@ -74,6 +74,7 @@ public class V2IPilot extends BasicPilot {
   // PRIVATE FIELDS
   // ///////////////////////////////
 
+  @SuppressWarnings("unused")
   private double stopDistanceBeforeIntersection;
 
   private AutoVehicleDriverView vehicle;

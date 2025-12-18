@@ -413,7 +413,7 @@ public class RoadBasedTrackModel implements TrackModel {
    */
   @Override
   public double traversalDistance(int arrivalID, int departureID) {
-    List<Integer> key = Arrays.asList(arrivalID, departureID);
+    // List<Integer> key = Arrays.asList(arrivalID, departureID);
     Lane arrival = Debug.currentMap.getLaneRegistry().get(arrivalID);
     Lane departure = Debug.currentMap.getLaneRegistry().get(departureID);
     return traversalDistance(arrival, departure);

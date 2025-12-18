@@ -53,18 +53,23 @@ public class LabeledSlider extends JPanel implements ChangeListener {
   private static final long serialVersionUID = 1L;
 
   /** The minimum value */
+  @SuppressWarnings("unused")
   private double minValue;
   /** The maximum value */
+  @SuppressWarnings("unused")
   private double maxValue;
   /** The default value */
+  @SuppressWarnings("unused")
   private double defaultValue;
   /** The major tick */
+  @SuppressWarnings("unused")
   private double majorTick;
   /** The minor tick */
   private double minorTick;
   /** The lable format */
   private String labelFormat;
   /** The tick label format */
+  @SuppressWarnings("unused")
   private String tickLabelFormat;
   /** Special tick label table */
   private Map<Integer, String> specialTickLabelTable;

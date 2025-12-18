@@ -448,6 +448,7 @@ public class V2ICoordinator implements Coordinator {
      *
      * @return Whether or not the interruption is successful.
      */
+    @SuppressWarnings("unused")
     public boolean interrupt() {
       switch(state) {
       case LC_WAITING_LANE_CHANGE:
@@ -1292,6 +1293,7 @@ public class V2ICoordinator implements Coordinator {
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("all") // Dead code when Debug.CAN_CHANGE_LANE is false
     public boolean perform() {
       // clean up
       removeReservationParameter();
@@ -1679,6 +1681,7 @@ public class V2ICoordinator implements Coordinator {
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("all") // Dead code when REQUEST_TIMEOUT < 0
     public boolean perform() {
       if (REQUEST_TIMEOUT >= 0.0 && timeSinceStateChange() > REQUEST_TIMEOUT) {
         nextAllowedSendingRequestTime =

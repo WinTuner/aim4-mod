@@ -1208,7 +1208,6 @@ public abstract class BasicVehicle implements VehicleSimView {
    */
   @Override
   protected void finalize() throws Throwable {
-    super.finalize();
     // Make sure that the vehicle is unregistered from the Vehicle Registry.
     if (vin >= 0) {
       VinRegistry.unregisterVehicle(vin);

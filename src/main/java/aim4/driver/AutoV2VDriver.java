@@ -103,27 +103,32 @@ public class AutoV2VDriver extends AutoDriver {
   /**
    * Whether or not this driver agent currently has a valid reservation.
    */
+  @SuppressWarnings("unused")
   private boolean hasReservation;
 
   /**
    * The time at which the Vehicle should arrive at the intersection.
    */
+  @SuppressWarnings("unused")
   private double arrivalTime;
 
   /**
    * The velocity, in meters per second, at which the Vehicle should arrive
    * at the intersection.
    */
+  @SuppressWarnings("unused")
   private double arrivalVelocity;
 
   /**
    * The Lane in which the Vehicle should arrive at the intersection.
    */
+  @SuppressWarnings("unused")
   private Lane arrivalLane;
 
   /**
    * The Lane in which the Vehicle will depart the intersection.
    */
+  @SuppressWarnings("unused")
   private Lane departureLane;
 
   /////////////////////////////////

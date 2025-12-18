@@ -136,7 +136,6 @@ public class UdpListener implements Runnable {
   protected void finalize() throws Throwable {
     blinker = null;
     closeSocket();
-    super.finalize();
   }
 
   /////////////////////////////////

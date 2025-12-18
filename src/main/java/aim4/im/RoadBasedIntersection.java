@@ -139,6 +139,7 @@ public class RoadBasedIntersection implements Intersection {
 
   // heading
 
+  @SuppressWarnings("unused")
   private Map<Lane,Double> headings = new HashMap<Lane,Double>();
 
   // cache

@@ -38,7 +38,6 @@ import java.util.Queue;
 
 import aim4.config.Debug;
 import aim4.driver.AutoDriver;
-import aim4.driver.DriverSimView;
 import aim4.map.lane.Lane;
 import aim4.msg.i2v.I2VMessage;
 import aim4.msg.v2i.V2IMessage;
@@ -63,6 +62,7 @@ public class BasicAutoVehicle extends BasicVehicle
    * Vehicle toward which the Vehicle is turning. Currently a factor of
    * {@value}.
    */
+  @SuppressWarnings("unused")
   private static final double SENSOR_RANGE_MULT_B = 1.5;
 
   /**
@@ -70,6 +70,7 @@ public class BasicAutoVehicle extends BasicVehicle
    * Vehicle away from which the Vehicle is turning. Currently a factor of
    * {@value}.
    */
+  @SuppressWarnings("unused")
   private static final double SENSOR_RANGE_MULT_S = 0.25;
 
   /**

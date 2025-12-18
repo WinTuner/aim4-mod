@@ -43,7 +43,7 @@ import aim4.sim.Simulator;
 /**
  * The setup for the simulator in which all vehicles are autonomous.
  */
-public class AutoDriverOnlySimSetup extends BasicSimSetup implements SimSetup {
+public class AutoDriverOnlySimSetup extends BasicSimSetup {
 
   /////////////////////////////////
   // NESTED CLASSES

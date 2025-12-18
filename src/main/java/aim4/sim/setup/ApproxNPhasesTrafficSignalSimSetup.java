@@ -43,8 +43,7 @@ import aim4.sim.Simulator;
  * The setup for the simulator in which the intersections are controlled
  * by N-phases traffic signals.
  */
-public class ApproxNPhasesTrafficSignalSimSetup extends BasicSimSetup
-                                                implements SimSetup {
+public class ApproxNPhasesTrafficSignalSimSetup extends BasicSimSetup {
 
   /** The name of the file containing the traffic signal phases */
   private String trafficSignalPhaseFileName;

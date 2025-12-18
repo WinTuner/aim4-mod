@@ -318,7 +318,8 @@ public class ReservationArray {
         tidSet.add(tid);
       }  // else ignore timetile that is before timeBegin
     }
-    assert (!SHOULD_CHECK_CONSISTENCY) || checkConsistency();
+    @SuppressWarnings("all") // Dead code due to assertions being disabled
+    boolean unused = (!SHOULD_CHECK_CONSISTENCY) || checkConsistency();
     return true;
   }
 
@@ -345,7 +346,6 @@ public class ReservationArray {
           }
         }
       }
-      assert (!SHOULD_CHECK_CONSISTENCY) || checkConsistency();
       return true;
     } else {
       return false; // the rid is not found
@@ -388,7 +388,8 @@ public class ReservationArray {
       ridToTimeToTid.remove(rid);
     }
 
-    assert (!SHOULD_CHECK_CONSISTENCY) || checkConsistency();
+    @SuppressWarnings("all") // Dead code due to assertions being disabled
+    boolean unused = (!SHOULD_CHECK_CONSISTENCY) || checkConsistency();
   }
 
   /**
