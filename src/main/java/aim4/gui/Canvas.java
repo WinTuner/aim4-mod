@@ -260,25 +260,6 @@ public class Canvas extends JPanel implements ComponentListener,
   /** Sidewalk centerline (visualization) */
   private static final Color SIDEWALK_CENTERLINE_COLOR = Color.RED;
   private static final Stroke SIDEWALK_CENTERLINE_STROKE = new BasicStroke(0.15f);
-  /** Pedestrian visualization */
-  private static final double PEDESTRIAN_RADIUS = 1; // meters
-  private static final Color PEDESTRIAN_COLOR = Color.WHITE;
-
-  // simple list of pedestrians walking along sidewalk centerlines
-  private java.util.List<Pedestrian> pedestrians = new java.util.ArrayList<Pedestrian>();
-  // list of sidewalk centerlines for spawning new pedestrians
-  private java.util.List<Line2D> sidewalkLines = new java.util.ArrayList<Line2D>();
-  // list of diagonal crossing lines inside intersections (scramble crossing)
-  private java.util.List<Line2D> crossingLines = new java.util.ArrayList<Line2D>();
-  // number of pedestrians to create per sidewalk (density control)
-  private int pedestrianDensity = 1;
-  private double lastPedSimTime = -1.0;
-
-  // Scramble phase timing parsed from CSV
-  private boolean pedPhaseParsed = false;
-  private double cycleLengthSec = 0.0;
-  private double pedsPhaseStartSec = -1.0;
-  private double pedsPhaseDurationSec = 0.0;
   /////////////////////////////////
   // PRIVATE FIELDS
   /////////////////////////////////
@@ -433,50 +414,9 @@ public class Canvas extends JPanel implements ComponentListener,
     mapImageTable[scaleIndex] =
         createMapImage(basicMap, scaleTable[scaleIndex]);
 
-    // create simple pedestrians that walk along sidewalk centerlines
-    createPedestriansFromMap();
-
     canUpdateCanvas = true;
   }
 
-  // Create one pedestrian per sidewalk (outermost lane) if a centerline exists
-  private void createPedestriansFromMap() {
-    pedestrians.clear();
-    sidewalkLines.clear();
-    if (basicMap == null) return;
-    for (Road road : basicMap.getRoads()) {
-      for (Lane lane : road.getLanes()) {
-        if (!lane.hasRightNeighbor()) {
-          try {
-            Sidewalk sw = new Sidewalk(lane, SIDEWALK_WIDTH);
-            Shape center = sw.getCenterLine();
-            if (center instanceof Line2D) {
-              Line2D line = (Line2D) center;
-              // record this sidewalk centerline for ongoing spawning
-              sidewalkLines.add(line);
-              // create 'pedestrianDensity' pedestrians per sidewalk with
-              // randomized starting offsets along the line
-              for (int i = 0; i < Math.max(0, pedestrianDensity); i++) {
-                double offset = Math.random();
-                pedestrians.add(new Pedestrian(line, offset));
-              }
-            }
-          } catch (Throwable t) { /* ignore */ }
-        }
-      }
-    }
-  }
-
-  /** Set the pedestrian density and recreate pedestrians. */
-  public void setPedestrianDensity(int density) {
-    this.pedestrianDensity = Math.max(0, density);
-    createPedestriansFromMap();
-  }
-
-  /** Get the current pedestrian density. */
-  public int getPedestrianDensity() {
-    return this.pedestrianDensity;
-  }
   /**
    * Create the display buffer
    */
@@ -837,61 +777,6 @@ public class Canvas extends JPanel implements ComponentListener,
     g2.setComposite(oldComposite);
   }
 
-  // Parse the signal phases CSV to find the PEDS window within the cycle
-  private void ensurePedSignalTiming() {
-    if (pedPhaseParsed) return;
-    pedPhaseParsed = true; // set true to avoid repeated attempts
-    cycleLengthSec = 0.0;
-    pedsPhaseStartSec = -1.0;
-    pedsPhaseDurationSec = 0.0;
-    InputStream is = null;
-    try {
-      is = Canvas.class.getResourceAsStream("/SignalPhases/AIM4Phases.csv");
-      if (is == null) return;
-      java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(is));
-      String line;
-      boolean headerSkipped = false;
-      double offset = 0.0;
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
-        if (line.isEmpty()) continue;
-        if (!headerSkipped) { headerSkipped = true; continue; }
-        String[] tok = line.split(",");
-        if (tok.length < 4) continue;
-        String name = tok[0].trim();
-        double g = Double.parseDouble(tok[1].trim());
-        double y = Double.parseDouble(tok[2].trim());
-        double r = Double.parseDouble(tok[3].trim());
-        double dur = Math.max(0.0, g) + Math.max(0.0, y) + Math.max(0.0, r);
-        if (name.equalsIgnoreCase("PEDS")) {
-          pedsPhaseStartSec = offset;
-          pedsPhaseDurationSec = dur;
-        }
-        offset += dur;
-      }
-      cycleLengthSec = Math.max(0.0, offset);
-    } catch (Throwable t) {
-      // ignore, keep defaults (peds inactive)
-    } finally {
-      try { if (is != null) is.close(); } catch (IOException ioe) { /* ignore */ }
-    }
-  }
-
-  private boolean isPedsWindow(double simTime) {
-    if (cycleLengthSec <= 0 || pedsPhaseStartSec < 0 || pedsPhaseDurationSec <= 0) return false;
-    double m = simTime % cycleLengthSec;
-    if (m < 0) m += cycleLengthSec;
-    return (m >= pedsPhaseStartSec && m < pedsPhaseStartSec + pedsPhaseDurationSec);
-  }
-
-  private double pedsWindowRemaining(double simTime) {
-    if (!isPedsWindow(simTime)) return 0.0;
-    double m = simTime % cycleLengthSec;
-    if (m < 0) m += cycleLengthSec;
-    double end = pedsPhaseStartSec + pedsPhaseDurationSec;
-    return Math.max(0.0, end - m);
-  }
-
   /**
    * Draw the data collection lines.
    *
@@ -962,68 +847,6 @@ public class Canvas extends JPanel implements ComponentListener,
         drawTrafficLights(displayBuffer, im);
       }
 
-      // update and draw pedestrians
-      double simTime = sim.getSimulationTime();
-      double dt = 0.0;
-      if (lastPedSimTime >= 0.0) dt = simTime - lastPedSimTime;
-      lastPedSimTime = simTime;
-      if (dt > 0) {
-        // ensure we know the scramble (PEDS) window from CSV
-        ensurePedSignalTiming();
-        boolean pedsActive = isPedsWindow(simTime);
-
-        java.util.Iterator<Pedestrian> it = pedestrians.iterator();
-        while (it.hasNext()) {
-          Pedestrian p = it.next();
-          p.move(dt);
-          if (p.isFinished()) {
-            it.remove();
-          }
-        }
-
-        // spawn new pedestrians on sidewalks probabilistically
-        // spawn rate per sidewalk (per second) scales with pedestrianDensity
-        double spawnRatePerSec = 0.1 * Math.max(0, pedestrianDensity);
-        for (Line2D line : sidewalkLines) {
-          if (Math.random() < spawnRatePerSec * dt) {
-            pedestrians.add(new Pedestrian(line, 0.0));
-          }
-        }
-
-        // Build crossing lines from intersections once
-        if (crossingLines.isEmpty()) {
-          crossingLines = new java.util.ArrayList<Line2D>();
-          for (IntersectionManager imgr : ims) {
-            Rectangle2D bb = imgr.getIntersection().getBoundingBox();
-            if (bb == null || bb.getWidth() <= 0 || bb.getHeight() <= 0) continue;
-            crossingLines.add(new Line2D.Double(bb.getX(), bb.getY(), bb.getX() + bb.getWidth(), bb.getY() + bb.getHeight()));
-            crossingLines.add(new Line2D.Double(bb.getX() + bb.getWidth(), bb.getY(), bb.getX(), bb.getY() + bb.getHeight()));
-          }
-        }
-
-        // During PEDS (scramble) window, spawn crossers that can finish before window ends
-        if (pedsActive && cycleLengthSec > 0 && pedsPhaseDurationSec > 0) {
-          double timeLeft = pedsWindowRemaining(simTime);
-          double crossSpawnRatePerLine = 0.15 * Math.max(0, pedestrianDensity); // per line per second
-          for (Line2D line : crossingLines) {
-            // Only spawn if a pedestrian can finish within the remaining window
-            double len = line.getP1().distance(line.getP2());
-            double walkSpeed = 1.2; // m/s (same as Pedestrian)
-            double timeNeeded = len / walkSpeed;
-            if (timeNeeded <= timeLeft) {
-              if (Math.random() < crossSpawnRatePerLine * dt) {
-                pedestrians.add(new Pedestrian(line, 0.0));
-              }
-            }
-          }
-        }
-      }
-      // draw pedestrians on top of sidewalks
-      displayBuffer.setPaint(PEDESTRIAN_COLOR);
-      for (Pedestrian p : pedestrians) {
-        Shape s = p.getShape();
-        if (s != null) displayBuffer.fill(s);
-      }
       // draw simulation time.
       if (isShowSimulationTime) {
         drawSimulationTime(displayBuffer, sim.getSimulationTime());
@@ -1693,42 +1516,5 @@ public class Canvas extends JPanel implements ComponentListener,
     poly.lineTo(innerEndX, innerEndY);
     poly.closePath();
     return poly;
-  }
-
-  // Simple pedestrian that walks linearly along a Line2D (wraps at end)
-  private static class Pedestrian {
-    private final Line2D path;
-    private double t; // 0..1 along the line
-    private final double speed = 1.2; // m/s approximate walking speed
-    private boolean reachedEnd = false;
-
-    Pedestrian(Line2D path, double t0) {
-      this.path = path;
-      this.t = Math.min(Math.max(0.0, t0), 1.0);
-      if (this.t >= 1.0) this.reachedEnd = true;
-    }
-
-    void move(double dt) {
-      if (reachedEnd) return; // stay at the end
-      double len = path.getP1().distance(path.getP2());
-      if (len <= 0) return;
-      double advance = (speed * dt) / len;
-      t += advance;
-      if (t >= 1.0) {
-        t = 1.0;
-        reachedEnd = true;
-      }
-    }
-
-    Shape getShape() {
-      double x = path.getX1() + (path.getX2() - path.getX1()) * t;
-      double y = path.getY1() + (path.getY2() - path.getY1()) * t;
-      double r = PEDESTRIAN_RADIUS;
-      return new Ellipse2D.Double(x - r, y - r, r * 2.0, r * 2.0);
-    }
-
-    boolean isFinished() {
-      return reachedEnd;
-    }
   }
 }

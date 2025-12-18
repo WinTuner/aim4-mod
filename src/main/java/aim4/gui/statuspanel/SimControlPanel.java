@@ -56,7 +56,6 @@ public class SimControlPanel extends JPanel
   LabeledSlider targetSimSpeedSlider;
   LabeledSlider targetFrameRateSlider;
   LabeledSlider trafficLevelSlider;
-  LabeledSlider pedestrianSlider;
 
   /** The viewer object */
   Viewer viewer;
@@ -101,13 +100,6 @@ public class SimControlPanel extends JPanel
                         500.0, 100.0,
                         "Traffic Level: %.0f vehicles/hour/lane",
                         "%.0f", this);
-    // Pedestrian density slider: people per sidewalk (0..10)
-    pedestrianSlider =
-      new LabeledSlider(0.0, 25.0,
-                        viewer.getInitPedestrianDensity(),
-                        5.0, 1.0,
-                        "Pedestrians per sidewalk: %.0f",
-                        "%.0f", this);
     // layout
     GroupLayout layout = new GroupLayout(this);
     setLayout(layout);
@@ -118,14 +110,12 @@ public class SimControlPanel extends JPanel
       .createParallelGroup(GroupLayout.Alignment.LEADING)
       .addComponent(targetSimSpeedSlider)
       .addComponent(targetFrameRateSlider)
-      .addComponent(trafficLevelSlider)
-      .addComponent(pedestrianSlider));
+      .addComponent(trafficLevelSlider));
 
     layout.setVerticalGroup(layout.createSequentialGroup()
       .addComponent(targetSimSpeedSlider)
       .addComponent(targetFrameRateSlider)
-      .addComponent(trafficLevelSlider)
-      .addComponent(pedestrianSlider));
+      .addComponent(trafficLevelSlider));
   }
 
   // ///////////////////////////////
@@ -170,8 +160,6 @@ public class SimControlPanel extends JPanel
       // slider value is vehicles/hour/lane -> convert to vehicles/sec/lane
       double vph = trafficLevelSlider.getValue();
       viewer.setTrafficLevel(vph / 3600.0);
-    } else if (evt.getSource() == pedestrianSlider) {
-      viewer.setPedestrianDensity((int) pedestrianSlider.getValue());
     }
   }
 }

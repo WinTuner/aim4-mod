@@ -26,6 +26,14 @@
                 </configuration>
             </plugin>
             <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>exec-maven-plugin</artifactId>
+              <version>3.0.0</version>
+              <configuration>
+                <mainClass>aim4.Main</mainClass>
+              </configuration>
+            </plugin>
+            <plugin>
               <!-- NOTE: We don't need a groupId specification because
                    the group is org.apache.maven.plugins ... which is
                    assumed by default.
