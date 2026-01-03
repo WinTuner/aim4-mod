@@ -30,18 +30,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package aim4.im.v2i.RequestHandler;
 
-import aim4.config.TrafficSignal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import aim4.config.TrafficSignal;
 import aim4.im.v2i.policy.BasePolicy;
-import aim4.im.v2i.policy.BasePolicyCallback;
 import aim4.im.v2i.policy.BasePolicy.ProposalFilterResult;
 import aim4.im.v2i.policy.BasePolicy.ReserveParam;
+import aim4.im.v2i.policy.BasePolicyCallback;
 import aim4.msg.i2v.Reject;
 import aim4.msg.v2i.Request;
 import aim4.sim.StatCollector;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The approximate N-Phases traffic signal request handler.
@@ -86,6 +86,7 @@ public class ApproxNPhasesTrafficSignalRequestHandler implements
       this(durations, signals, 0.0);
     }
 
+
     /**
      * Create a cyclic signal controller.
      *
@@ -106,6 +107,13 @@ public class ApproxNPhasesTrafficSignalRequestHandler implements
     }
 
     /**
+     * Expose the total duration of the cycle.
+     */
+    public double getTotalDuration() {
+      return totalDuration;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -122,6 +130,61 @@ public class ApproxNPhasesTrafficSignalRequestHandler implements
       }
       assert false:("Error in CyclicLightController()");
       return null;
+    }
+  }
+
+  /**
+   * A patterned controller that forces each side to be RED in sequence (N -> S -> E -> W),
+   * then forces ALL sides RED for one full cycle, and then repeats.
+   *
+   * Behavior: if the current time falls into the "stop window" for this controller's side,
+   * return RED. If the time is in the "all stop" window, return RED. Otherwise delegate
+   * to the wrapped cyclic controller.
+   */
+  public static class PatternedSignalController implements SignalController {
+
+    private final CyclicSignalController delegate;
+    private final int sideIndex; // 0:N,1:S,2:E,3:W
+    private final int numSides = 4;
+    private final double sideWindowLength; // equals delegate totalDuration
+    private final double patternLength; // (numSides + 1) * sideWindowLength
+
+    /**
+     * Create a patterned controller for a specific side.
+     *
+     * @param delegate the underlying cyclic controller
+     * @param sideIndex 0=N,1=S,2=E,3=W
+     */
+    public PatternedSignalController(CyclicSignalController delegate, int sideIndex) {
+      this.delegate = delegate;
+      this.sideIndex = sideIndex;
+      this.sideWindowLength = delegate.getTotalDuration();
+      this.patternLength = (numSides + 1) * sideWindowLength;
+    }
+
+    @Override
+    public TrafficSignal getSignal(double time) {
+      // Normalize into [0, patternLength)
+      double t = time - Math.floor(time / patternLength) * patternLength;
+
+      // Check which window we're in.
+      // Side windows: [i*L, (i+1)*L) for i in [0,numSides-1]
+      for (int i = 0; i < numSides; i++) {
+        double start = i * sideWindowLength;
+        double end = start + sideWindowLength;
+        if (t >= start && t < end) {
+          // If this controller corresponds to the side i, force RED
+          if (i == sideIndex) {
+            return TrafficSignal.RED;
+          } else {
+            // otherwise, delegate to the underlying cyclic controller
+            return delegate.getSignal(time);
+          }
+        }
+      }
+
+      // If not in any side window, we're in the "all stop" window: force RED for all
+      return TrafficSignal.RED;
     }
   }
 
@@ -145,7 +208,7 @@ public class ApproxNPhasesTrafficSignalRequestHandler implements
    * Create the approximate N-Phases traffic signal request handler.
    */
   public ApproxNPhasesTrafficSignalRequestHandler() {
-    signalControllers = new HashMap<Integer,SignalController>();
+    signalControllers = new HashMap<>();
   }
 
   /////////////////////////////////
