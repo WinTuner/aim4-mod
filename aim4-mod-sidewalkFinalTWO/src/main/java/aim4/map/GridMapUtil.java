@@ -473,9 +473,25 @@ public class GridMapUtil {
 
         for(Road road : im.getIntersection().getEntryRoads()) {
           for(Lane lane : road.getLanes()) {
-            CyclicSignalController controller =
+            CyclicSignalController baseController =
                 phase.calcCyclicSignalController(road);
-            requestHandler.setSignalControllers(lane.getId(), controller);
+            // map road name to side index: 0=N,1=S,2=E,3=W
+            int sideIndex = 0; // default to N
+            String rn = road.getName();
+            if (rn != null && rn.length() > 0) {
+              char last = rn.charAt(rn.length()-1);
+              switch (last) {
+                case 'N': sideIndex = 0; break;
+                case 'S': sideIndex = 1; break;
+                case 'E': sideIndex = 2; break;
+                case 'W': sideIndex = 3; break;
+                default: sideIndex = 0; break;
+              }
+            }
+            ApproxNPhasesTrafficSignalRequestHandler.PatternedSignalController
+                wrapped = new ApproxNPhasesTrafficSignalRequestHandler
+                .PatternedSignalController(baseController, sideIndex);
+            requestHandler.setSignalControllers(lane.getId(), wrapped);
           }
         }
 
